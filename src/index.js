@@ -9,13 +9,15 @@ const people = [
     {name:'Tyler'}
 ]
 
-const element = React.createElement('ol', null,
-    people.map(person => (
-        React.createElement('li', { key: person.name}, person.name)
-    ))
-)
+const element = <ol>
+    {people.map(person => (
+        <li key={person.name}>{person.name}</li>
+    ))} 
+</ol>
 
-ReactDOM.render( element, document.getElementById('root'))
+debugger
+
+ReactDOM.render(element, document.getElementById('root'))
   
 
 // If you want your app to work offline and load faster, you can change
