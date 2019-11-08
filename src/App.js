@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import ListContacts from './ListContacts'
+import { tsConstructSignatureDeclaration } from '@babel/types'
 
   export default class App extends Component{
       state = {
@@ -24,10 +25,18 @@ import ListContacts from './ListContacts'
           }
         ]
       }
+      removeContact = (contacts) =>{
+        //o novo estado se baseia no estado atual
+        this.setState((state) => ({
+          contacts: state.contacts.filter((c) => c.id !== contacts.id)
+        }))
+        //Usar somente quando não depende de outro estado.
+        //this.setStart({})
+      }
       render(){
           return(
               <div>
-                  <ListContacts contacts={this.state.contacts}/>
+                  <ListContacts onDeleteContact={this.removeContact} contacts={this.state.contacts}/>
               </div>
           )
       }
