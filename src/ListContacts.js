@@ -16,10 +16,13 @@ class ListContacts extends Component{
         this.setState({ query: query.trim() })
     }
     render(){
+        const { contacts, onDeleteContact } = this.props
+        const { query } = this.state
+
         //Filtro que pega o nome e exibe de acordo com a pesquisa de acordo com o valor do input
         //manipula o estado de um componente
         let showingContacts
-        if(this.state.query){
+        if(query){
             const match = new RegExp(escapeReExp(this.state.query), 'i')
             match.test('Tyler')
             showingContacts = this.props.contacts.filter(( contact ) => match.test(contact.name))
@@ -52,7 +55,7 @@ class ListContacts extends Component{
                                 <p>{contact.name}</p>
                                 <p>{contact.email}</p>
                             </div>
-                            <button onClick={() => this.props.onDeleteContact(contact)} 
+                            <button onClick={() => onDeleteContact(contact)} 
                                 className='contact-remove'>
                                 Remove
                             </button>
