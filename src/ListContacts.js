@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import escapeReExp from 'escape-string-regexp'
+import sortBy from 'sort-by'
 
 class ListContacts extends Component{
     static propTypes ={
@@ -14,6 +16,20 @@ class ListContacts extends Component{
         this.setState({ query: query.trim() })
     }
     render(){
+        //Filtro que pega o nome e exibe de acordo com a pesquisa de acordo com o valor do input
+        //manipula o estado de um componente
+        let showingContacts
+        if(this.state.query){
+            const match = new RegExp(escapeReExp(this.state.query), 'i')
+            match.test('Tyler')
+            showingContacts = this.props.contacts.filter(( contact ) => match.test(contact.name))
+        }else{
+            showingContacts = this.props.contacts
+        }
+        //exibindo por ordem alfabética pelo nome
+
+        showingContacts.sort(sortBy('name'))
+
         return(
             <div className='list-contacts'>
                 {JSON.stringify(this.state)}
@@ -27,7 +43,7 @@ class ListContacts extends Component{
                     />
                 </div>
                  <ol className='contact-list'>
-                    {this.props.contacts.map((contact) =>(
+                    {showingContacts.map((contact) =>(
                         <li key={contact.id} className='contact-list-item'>
                             <div className='contact-avatar' style={{
                                 backgroundImage: `url(${contact.avatarURL})`
