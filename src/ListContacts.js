@@ -12,8 +12,13 @@ class ListContacts extends Component{
     state = {
         query: ''
     }
+    //mudando valor do comapo input para minusculo
     updateQuery = (query) =>{
         this.setState({ query: query.trim() })
+    }
+    //função para limpar ao clicar no botão da listagem
+    clearQuery = () =>{
+        this.setState({ query: '' })
     }
     render(){
         const { contacts, onDeleteContact } = this.props
@@ -44,7 +49,19 @@ class ListContacts extends Component{
                         value={this.state.query}
                         onChange={(event) => this.updateQuery(event.target.value)}
                     />
+                    <a 
+                        href="#create"
+                        onClick={this.props.onNavigate}
+                        className="add-contact"
+                        >Add Contact</a>
                 </div>
+
+                {showingContacts.length !== contacts.length && (
+                    <div className='showing-contacts'>
+                        <span>Now showing { contacts.length } of { contacts.length } total</span>
+                        <button onClick={this.clearQuery}>Show All</button>
+                    </div>
+                )}
                  <ol className='contact-list'>
                     {showingContacts.map((contact) =>(
                         <li key={contact.id} className='contact-list-item'>
