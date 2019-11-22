@@ -25,6 +25,14 @@ import * as ContactsAPI from './utils/ContactsAPI'
         //Usar somente quando não depende de outro estado.
         //this.setStart({})
       }
+
+      createContact(contact){
+        ContactsAPI.create(contact).then(contact => {
+          this.setState(state =>({
+            contacts : state.contacts.contact([ contact ])
+          }))
+        })
+      }
       render(){
           return(
               <div className="app">
@@ -34,9 +42,14 @@ import * as ContactsAPI from './utils/ContactsAPI'
                     contacts={this.state.contacts}
                     />
                   )}/>
-                  <Route path="/create" component={CreateContact}/>
-                  
-                )}  
+                  <Route path="/create" render={({ history }) => (
+                    <CreateContact
+                      onCreateContact={(contact) => {
+                        this.createContact(contact)
+                        history.push('/')
+                      }}
+                    />
+                  )}/>
               </div>
           )
       }
